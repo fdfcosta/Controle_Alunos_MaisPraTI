@@ -11,11 +11,12 @@ namespace Alunos
         {
             List<Aluno> ListaAlunos = new()
             {
-              //  new Aluno() { Nome = "JOSÉ CARLOS", Idade = 22, Email = "JOSE.CARLOS@GMAIL.COM" },
-                //new Aluno() { Nome = "FERNANDO COSTA", Idade = 15, Email = "FERNANDO.COSTA@OUTLOOK.COM" },
-                //new Aluno() { Nome = "OLAVO FERNANDES", Idade = 19, Email = "FERNANDES.OLAVO@HOTMAIL.COM" },
-                //new Aluno() { Nome = "DIENIFER SILVA", Idade = 24, Email = "DIENI.SILVA@GMAIL.COM" }
+                new Aluno() { Nome = "JOSÉ CARLOS", Idade = 22, Email = "JOSE.CARLOS@GMAIL.COM" },
+                new Aluno() { Nome = "FERNANDO COSTA", Idade = 15, Email = "FERNANDO.COSTA@OUTLOOK.COM" },
+                new Aluno() { Nome = "OLAVO FERNANDES", Idade = 19, Email = "FERNANDES.OLAVO@HOTMAIL.COM" },
+                new Aluno() { Nome = "DIENIFER SILVA", Idade = 24, Email = "DIENI.SILVA@GMAIL.COM" }
             };
+
             int Opcao = -1;
 
 
@@ -43,37 +44,36 @@ namespace Alunos
 
                     switch (Opcao)
                     {
-                        // 1 - Cadastrar Aluno
                         case 1:
                             CadastrarAluno();
                             ReiniciaTela();
                             break;
-                        // 2 - Consultar todos os Alunos
+                        
                         case 2:
                             ConsultarAlunos();
                             ReiniciaTela();
                             break;
-                        // 3 - Alterar Aluno
+                        
                         case 3:
                             AlterarDadosAluno();
                             ReiniciaTela();
                             break;
-                        // 4 - Remover Aluno
+                        
                         case 4:
                             RemoverAluno();
                             ReiniciaTela();
                             break;
-                        // 5 - Listar Alunos maiores de idade
+                        
                         case 5:
                             ListagemAlunosMaiorIdade();
                             ReiniciaTela();
                             break;
-                        // 6 - Listar Alunos menores de idade
+                        
                         case 6:
                             ListagemAlunosMenorIdade();
                             ReiniciaTela();
                             break;
-                        // 0 - Sair
+                        
                         case 0:
                             Console.Write("Saindo");
                             Thread.Sleep(400);

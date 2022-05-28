@@ -1,5 +1,4 @@
-﻿using System.Text;
-
+﻿
 namespace Alunos.Entities
 {
     public class Aluno
