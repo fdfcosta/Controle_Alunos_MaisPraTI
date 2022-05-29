@@ -6,25 +6,25 @@ namespace Alunos.Entities
 {
     public class ControleAlunos
     {
-            public List<Aluno> ListaAlunos { get; set; } = new()
+        public List<Aluno> ListaAlunos { get; set; } = new()
+        {
+            new Aluno() { Nome = "JOSÉ CARLOS", Idade = 22, Email = "JOSE.CARLOS@GMAIL.COM" },
+            new Aluno() { Nome = "FERNANDO COSTA", Idade = 15, Email = "FERNANDO.COSTA@OUTLOOK.COM" },
+            new Aluno() { Nome = "OLAVO FERNANDES", Idade = 19, Email = "FERNANDES.OLAVO@HOTMAIL.COM" },
+            new Aluno() { Nome = "DIENIFER SILVA", Idade = 24, Email = "DIENI.SILVA@GMAIL.COM" },
+            new Aluno() { Nome = "FABRÍCIO DEL FRARI DA COSTA", Idade = 25, Email = "DEVCODE.FABRICIO@GMAIL.COM" }
+        };
+
+        private int Opcao = -1;
+
+
+        public void ImprimeMenu()
+        {
+
+
+            while (Opcao != 0)
             {
-                new Aluno() { Nome = "JOSÉ CARLOS", Idade = 22, Email = "JOSE.CARLOS@GMAIL.COM" },
-                new Aluno() { Nome = "FERNANDO COSTA", Idade = 15, Email = "FERNANDO.COSTA@OUTLOOK.COM" },
-                new Aluno() { Nome = "OLAVO FERNANDES", Idade = 19, Email = "FERNANDES.OLAVO@HOTMAIL.COM" },
-                new Aluno() { Nome = "DIENIFER SILVA", Idade = 24, Email = "DIENI.SILVA@GMAIL.COM" },
-                new Aluno() { Nome = "FABRÍCIO DEL FRARI DA COSTA", Idade = 25, Email = "DEVCODE.FABRICIO@GMAIL.COM" }
-            };
-
-            private int Opcao = -1;
-
-
-            public void ImprimeMenu()
-            {
-
-
-                while (Opcao != 0)
-                {
-                    Console.WriteLine(@"CONTROLE DE ALUNOS +PRATI - GRUPO TELECON
+                Console.WriteLine(@"CONTROLE DE ALUNOS +PRATI - GRUPO TELECON
 ------------------------------
 1- Cadastrar Aluno
 2- Consultar todos os Alunos
@@ -34,555 +34,552 @@ namespace Alunos.Entities
 6- Listar Alunos menores de idade
 0- Sair");
 
-                    Opcao = DefineOpcaoMenu();
+                Opcao = DefineOpcaoMenu();
 
 
-                    switch (Opcao)
-                    {
-                        case 1:
-                        if (!ConfirmaAcao())
-                            break;
-
+                switch (Opcao)
+                {
+                    case 1:
                         CadastrarAluno();
-                            ReiniciaTela();
-                            break;
+                        ReiniciaTela();
+                        break;
 
-                        case 2:
-                            ConsultarAlunos();
-                            ReiniciaTela();
-                            break;
+                    case 2:
+                        ConsultarAlunos();
+                        ReiniciaTela();
+                        break;
 
-                        case 3:
-                        if (!ConfirmaAcao())
-                            break;
-
+                    case 3:
                         AlterarDadosAluno();
-                            ReiniciaTela();
-                            break;
+                        ReiniciaTela();
+                        break;
 
-                        case 4:
-                        if (!ConfirmaAcao())
-                            break;
-
+                    case 4:
                         RemoverAluno();
-                            ReiniciaTela();
-                            break;
+                        ReiniciaTela();
+                        break;
 
-                        case 5:
-                            ListagemAlunosMaiorIdade();
-                            ReiniciaTela();
-                            break;
+                    case 5:
+                        ListagemAlunosMaiorIdade();
+                        ReiniciaTela();
+                        break;
 
-                        case 6:
-                            ListagemAlunosMenorIdade();
-                            ReiniciaTela();
-                            break;
+                    case 6:
+                        ListagemAlunosMenorIdade();
+                        ReiniciaTela();
+                        break;
 
-                        case 0:
-                            Console.Write("Saindo");
-                            Thread.Sleep(400);
-                            Console.Write('.');
-                            Thread.Sleep(400);
-                            Console.Write('.');
-                            Thread.Sleep(400);
-                            Console.Write('.');
-                            break;
+                    case 0:
+                        Console.Write("Saindo");
+                        Thread.Sleep(400);
+                        Console.Write('.');
+                        Thread.Sleep(400);
+                        Console.Write('.');
+                        Thread.Sleep(400);
+                        Console.Write('.');
+                        break;
 
-                        default:
-                            Console.WriteLine("Opção inválida!");
-                            ReiniciaTela();
-                            break;
+                    default:
+                        Console.WriteLine("Opção inválida!");
+                        ReiniciaTela();
+                        break;
 
-                    }
                 }
             }
+        }
 
-            public void CadastrarAluno()
-            {
-                
+        public void CadastrarAluno()
+        {
+            if (!ConfirmaAcao())
+                return;
 
-                Console.Clear();
+            Console.Clear();
 
-                Console.WriteLine(@"CADASTRO DE ALUNOS +PRATI - GRUPO TELECON
+            Console.WriteLine(@"CADASTRO DE ALUNOS +PRATI - GRUPO TELECON
 ");
 
-                string Nome = CadastrarNomeAluno().ToUpper();
-                int Idade = CadastrarIdadeAluno();
-                string Email = CadastrarEmailAluno().ToUpper();
+            string Nome = CadastrarNomeAluno().ToUpper();
+            int Idade = CadastrarIdadeAluno();
+            string Email = CadastrarEmailAluno().ToUpper();
 
 
 
-                if (AlunoJaExiste(Nome, Idade))
-                    return;
+            if (AlunoJaExiste(Nome, Idade))
+                return;
 
 
-                ListaAlunos.Add(new Aluno(Nome.ToUpper(), Idade, Email.ToUpper()));
+            ListaAlunos.Add(new Aluno(Nome.ToUpper(), Idade, Email.ToUpper()));
 
-                Console.WriteLine(@$"
+            Console.WriteLine(@$"
 Aluno cadastrado!
 {ListaAlunos[^1]}");
 
-            }
+        }
 
-            public string CadastrarNomeAluno()
+        public string CadastrarNomeAluno()
+        {
+            string NomeAluno = "";
+            try
             {
-                string NomeAluno = "";
-                try
+                while (!ValidaNome(NomeAluno))
                 {
-                    while (!ValidaNome(NomeAluno))
+                    Console.Write("Informe o nome completo do aluno: ");
+                    NomeAluno = Console.ReadLine().Trim();
+
+                    if (!ValidaNome(NomeAluno))
                     {
-                        Console.Write("Informe o nome completo do aluno: ");
-                        NomeAluno = Console.ReadLine().Trim();
-
-                        if (!ValidaNome(NomeAluno))
-                        {
-                            Console.WriteLine("Nome inválido. Tecle e tente novamente.");
-                            NomeAluno = "";
-                            Console.ReadKey();
-                        }
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Ocorreu um erro: {ex.Message}");
-                }
-
-                return NomeAluno;
-            }
-
-            //método auxiliar para CadastrarNomeAluno()
-            public bool ValidaNome(string Nome)
-            {
-                string NomeSemAcento = RetiraAcentosNome(Nome);
-                bool RegexNomeTeste = Regex.IsMatch(NomeSemAcento, @"^[a-zA-Z]+[\s]");
-
-                return RegexNomeTeste;
-            }
-
-            //método auxiliar para ValidaNome()
-            public string RetiraAcentosNome(string Nome)
-            {
-                Nome = Nome.Normalize(NormalizationForm.FormD);
-
-                StringBuilder sb = new();
-
-                for (byte i = 0; i < Nome.Length; i++)
-                {
-                    if (CharUnicodeInfo.GetUnicodeCategory(Nome[i]) != UnicodeCategory.NonSpacingMark)
-                        sb.Append(Nome[i]);
-                }
-
-                return sb.ToString();
-            }
-
-            public int CadastrarIdadeAluno()
-            {
-
-                int IdadeAluno = 0;
-                while (!ValidaIdade(IdadeAluno))
-                {
-                    try
-                    {
-
-                        Console.Write("Informe a idade do aluno: ");
-                        IdadeAluno = Convert.ToInt32(Console.ReadLine().Trim());
-
-                        if (!ValidaIdade(IdadeAluno))
-                        {
-                            Console.WriteLine("Idade inválida. Tecle e tente novamente.");
-                            IdadeAluno = 0;
-                            Console.ReadKey();
-                        }
-                    }
-                    catch
-                    {
-                        IdadeAluno = 0;
-                        Console.WriteLine("Idade inválida. Tecle e tente novamente.");
+                        Console.WriteLine("Nome inválido. Tecle e tente novamente.");
+                        NomeAluno = "";
                         Console.ReadKey();
-                        continue;
-
                     }
                 }
 
-
-                return IdadeAluno;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ocorreu um erro: {ex.Message}");
             }
 
-            //método auxiliar para CadastrarIdadeAluno()
-            public bool ValidaIdade(int Idade)
+            return NomeAluno;
+        }
+
+        //método auxiliar para CadastrarNomeAluno()
+        public bool ValidaNome(string Nome)
+        {
+            string NomeSemAcento = RetiraAcentosNome(Nome);
+            bool RegexNomeTeste = Regex.IsMatch(NomeSemAcento, @"^[a-zA-Z]+[\s]");
+
+            return RegexNomeTeste;
+        }
+
+        //método auxiliar para ValidaNome()
+        public string RetiraAcentosNome(string Nome)
+        {
+            Nome = Nome.Normalize(NormalizationForm.FormD);
+
+            StringBuilder sb = new();
+
+            for (byte i = 0; i < Nome.Length; i++)
             {
-                return Idade > 0 && Idade <= 60;
+                if (CharUnicodeInfo.GetUnicodeCategory(Nome[i]) != UnicodeCategory.NonSpacingMark)
+                    sb.Append(Nome[i]);
             }
 
-            public string CadastrarEmailAluno()
+            return sb.ToString();
+        }
+
+        public int CadastrarIdadeAluno()
+        {
+
+            int IdadeAluno = 0;
+            while (!ValidaIdade(IdadeAluno))
             {
-                string EmailAluno = "";
                 try
                 {
-                    while (!ValidaEmail(EmailAluno))
+
+                    Console.Write("Informe a idade do aluno: ");
+                    IdadeAluno = Convert.ToInt32(Console.ReadLine().Trim());
+
+                    if (!ValidaIdade(IdadeAluno))
                     {
-
-                        Console.Write("Informe o e-mail do aluno: ");
-                        EmailAluno = Console.ReadLine().Trim();
-
-                        if (!ValidaEmail(EmailAluno))
-                        {
-                            Console.WriteLine("E-mail inválido. Tecle e tente novamente.");
-                            EmailAluno = "";
-                            Console.ReadKey();
-                        }
+                        Console.WriteLine("Idade inválida. Tecle e tente novamente.");
+                        IdadeAluno = 0;
+                        Console.ReadKey();
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
-                    Console.WriteLine($"Ocorreu um erro: {ex.Message}");
+                    IdadeAluno = 0;
+                    Console.WriteLine("Idade inválida. Tecle e tente novamente.");
+                    Console.ReadKey();
+                    continue;
+
                 }
-
-                return EmailAluno;
             }
 
-            //método auxiliar para CadastrarEmailAluno()
-            public bool ValidaEmail(string Email)
+
+            return IdadeAluno;
+        }
+
+        //método auxiliar para CadastrarIdadeAluno()
+        public bool ValidaIdade(int Idade)
+        {
+            return Idade > 0 && Idade <= 60;
+        }
+
+        public string CadastrarEmailAluno()
+        {
+            string EmailAluno = "";
+            try
             {
-                // https://stackoverflow.com/questions/1365407/c-sharp-code-to-validate-email-address resposta do usuário Vasya Milovidov;
-                // testado em https://regex101.com/
-                bool RegexEmailTeste = Regex.IsMatch(Email, @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|"
-            + @"([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)"
-            + @"@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$");
-
-                bool EmailTerminaCom = Email.EndsWith(".com") || Email.EndsWith(".net") || Email.EndsWith(".br");
-
-                //separa o email usando @ como parâmetro
-                var SplitEmail = Email.Split('@');
-
-                //todo endereço de e-mail consiste em três elementos: parte local, símbolo '@' e nome do domínio
-                //a posicao 0 do array será a parte local do email
-                //a parte local do email precisa conter no mínimo 3 caracteres
-                bool ParteLocalValida = SplitEmail[0].Length >= 3;
-
-                return RegexEmailTeste && EmailTerminaCom && ParteLocalValida;
-            }
-
-            public bool AlunoJaExiste(string Nome, int Idade)
-            {
-                foreach (Aluno aluno in ListaAlunos)
+                while (!ValidaEmail(EmailAluno))
                 {
-                    if (aluno.Nome == Nome && aluno.Idade == Idade)
+
+                    Console.Write("Informe o e-mail do aluno: ");
+                    EmailAluno = Console.ReadLine().Trim();
+
+                    if (!ValidaEmail(EmailAluno))
                     {
-                        Console.WriteLine(@"
+                        Console.WriteLine("E-mail inválido. Tecle e tente novamente.");
+                        EmailAluno = "";
+                        Console.ReadKey();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ocorreu um erro: {ex.Message}");
+            }
+
+            return EmailAluno;
+        }
+
+        //método auxiliar para CadastrarEmailAluno()
+        public bool ValidaEmail(string Email)
+        {
+            // https://stackoverflow.com/questions/1365407/c-sharp-code-to-validate-email-address resposta do usuário Vasya Milovidov;
+            // testado em https://regex101.com/
+            bool RegexEmailTeste = Regex.IsMatch(Email, @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|"
+        + @"([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)"
+        + @"@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$");
+
+            bool EmailTerminaCom = Email.EndsWith(".com") || Email.EndsWith(".net") || Email.EndsWith(".br");
+
+            //separa o email usando @ como parâmetro
+            var SplitEmail = Email.Split('@');
+
+            //todo endereço de e-mail consiste em três elementos: parte local, símbolo '@' e nome do domínio
+            //a posicao 0 do array será a parte local do email
+            //a parte local do email precisa conter no mínimo 3 caracteres
+            bool ParteLocalValida = SplitEmail[0].Length >= 3;
+
+            return RegexEmailTeste && EmailTerminaCom && ParteLocalValida;
+        }
+
+        public bool AlunoJaExiste(string Nome, int Idade)
+        {
+            foreach (Aluno aluno in ListaAlunos)
+            {
+                if (aluno.Nome == Nome && aluno.Idade == Idade)
+                {
+                    Console.WriteLine(@"
 Aluno já cadastrado. Consulte a lista de alunos.");
-                        return true;
-                    }
-
+                    return true;
                 }
 
-                return false;
             }
 
-            public void ConsultarAlunos()
-            {
-                Console.Clear();
-                Console.WriteLine(@"LISTA DE ALUNOS +PRATI - GRUPO TELECON
+            return false;
+        }
+
+        public void ConsultarAlunos()
+        {
+            Console.Clear();
+            Console.WriteLine(@"LISTA DE ALUNOS +PRATI - GRUPO TELECON
 ");
-                ListagemAlunosPosicao();
+            ListagemAlunosPosicao();
+        }
+
+        public void AlterarDadosAluno()
+        {
+            if (!ConfirmaAcao())
+                return;
+
+            Console.Clear();
+            Console.WriteLine(@"ALTERAÇÃO CADASTRAL +PRATI - GRUPO TELECON
+");
+
+            if (!ExisteAlunos())
+            {
+                Console.WriteLine("Não há alunos cadastrados para alteração.");
+                return;
             }
 
-            public void AlterarDadosAluno()
-            {
+            int Posicao = DefinePosicao();
 
-                Console.Clear();
-                Console.WriteLine(@"ALTERAÇÃO CADASTRAL +PRATI - GRUPO TELECON
-");
+            int Opcao = 0;
 
-                if (!ExisteAlunos())
-                {
-                    Console.WriteLine("Não há alunos cadastrados para alteração.");
-                    return;
-                }
-
-                int Posicao = DefinePosicao();
-
-                int Opcao = 0;
-
-                Console.WriteLine(@"
+            Console.WriteLine(@"
 O que deseja alterar?
 [1] - Nome
 [2] - Idade
 [3] - Email
 [4] - Não desejo alterar (Sair)");
 
-                while (Opcao < 1 || Opcao > 3)
+            while (Opcao < 1 || Opcao > 3)
+            {
+                if (Opcao == 4)
+                    break;
+                try
                 {
-                    if (Opcao == 4)
-                        break;
-                    try
-                    {
-                        Opcao = Convert.ToInt32(Console.ReadLine().Trim());
+                    Opcao = Convert.ToInt32(Console.ReadLine().Trim());
 
-                        if (Opcao < 1 || Opcao > 4)
-                        {
-                            Opcao = 0;
-                            Console.WriteLine("Opcão inválida. Digite [1], [2] ou [3].");
-                        }
-
-                    }
-                    catch
+                    if (Opcao < 1 || Opcao > 4)
                     {
                         Opcao = 0;
                         Console.WriteLine("Opcão inválida. Digite [1], [2] ou [3].");
-                        continue;
                     }
 
                 }
-
-                switch (Opcao)
+                catch
                 {
-                    case 1:
-                        ListaAlunos[Posicao].AlteraNome(CadastrarNomeAluno().ToUpper());
-                        Console.WriteLine(@$"Alteração de {ListaAlunos[Posicao].Nome} realizada com sucesso!
+                    Opcao = 0;
+                    Console.WriteLine("Opcão inválida. Digite [1], [2] ou [3].");
+                    continue;
+                }
+
+            }
+
+            switch (Opcao)
+            {
+                case 1:
+                    ListaAlunos[Posicao].AlteraNome(CadastrarNomeAluno().ToUpper());
+                    Console.WriteLine(@$"Alteração de {ListaAlunos[Posicao].Nome} realizada com sucesso!
 {ListaAlunos[Posicao]}");
-                        Console.WriteLine();
-                        break;
-                    case 2:
-                        ListaAlunos[Posicao].AlteraIdade(CadastrarIdadeAluno());
-                        Console.WriteLine(@$"Alteração de {ListaAlunos[Posicao].Nome} realizada com sucesso!
-{ListaAlunos[Posicao]}");
-                        break;
-                    case 3:
-                        ListaAlunos[Posicao].AlteraEmail(CadastrarEmailAluno().ToUpper());
-                        Console.WriteLine(@$"Alteração de {ListaAlunos[Posicao].Nome} realizada com sucesso!
-{ListaAlunos[Posicao]}");
-                        break;
-                    case 4:
-                        break;
-
-                }
-
-            }
-
-            public void RemoverAluno()
-            {
-
-                Console.Clear();
-                Console.WriteLine(@"REMOÇÃO DE ALUNOS +PRATI - GRUPO TELECON
-");
-
-                if (!ExisteAlunos())
-                {
-                    Console.WriteLine("Não há alunos cadastrados para remoção.");
-                    return;
-                }
-
-                int Posicao = DefinePosicao();
-
-                string NomeAlunoExcluido = ListaAlunos[Posicao].Nome;
-
-                ListaAlunos.RemoveAt(Posicao);
-
-
-                Console.WriteLine($"Aluno {NomeAlunoExcluido} removido!");
-            }
-
-            public void ListagemAlunosPosicao()
-            {
-                Console.Clear();
-                Console.WriteLine(@"LISTA DE ALUNOS +PRATI - GRUPO TELECON
-");
-
-                if (!ExisteAlunos())
-                    Console.WriteLine("Não há alunos cadastrados.");
-                else
-                {
-                    for (byte i = 0; i < ListaAlunos.Count; i++)
-                    {
-                        Console.WriteLine($"{i + 1}. {ListaAlunos[i]}");
-                    }
-                }
-
-            }
-
-            public void ListagemAlunosMaiorIdade()
-            {
-                Console.Clear();
-                Console.WriteLine(@"LISTA DE ALUNOS MAIORES DE IDADE +PRATI - GRUPO TELECON
-");
-
-                List<Aluno> AlunosMaior = new();
-
-                foreach (Aluno aluno in ListaAlunos)
-                {
-                    if (aluno.Idade >= 18)
-                        AlunosMaior.Add(aluno);
-                }
-
-                if (AlunosMaior.Count < 1)
-                {
-                    Console.WriteLine("Não há alunos maiores de idade cadastrados.");
-                    return;
-                }
-
-
-                Console.WriteLine("LISTA ALUNOS MAIORES DE IDADE");
-
-                for (byte i = 0; i < AlunosMaior.Count; i++)
-                {
-                    Console.WriteLine($"{i + 1} - {AlunosMaior[i]}");
-                }
-
-            }
-
-            public void ListagemAlunosMenorIdade()
-            {
-                Console.Clear();
-                Console.WriteLine(@"LISTA DE ALUNOS MENORES DE IDADE +PRATI - GRUPO TELECON
-");
-
-                List<Aluno> AlunosMenor = new();
-
-                foreach (Aluno aluno in ListaAlunos)
-                {
-                    if (aluno.Idade < 18)
-                        AlunosMenor.Add(aluno);
-
-                }
-
-                if (AlunosMenor.Count < 1)
-                {
-                    Console.WriteLine("Não há alunos menores de idade cadastrados.");
-                    return;
-                }
-
-                Console.WriteLine(@"LISTA ALUNOS MENORES DE IDADE");
-
-                for (byte i = 0; i < AlunosMenor.Count; i++)
-                {
-                    Console.WriteLine($"{i + 1}. {AlunosMenor[i]}");
-                }
-            }
-
-            public int DefinePosicao()
-            {
-                int Posicao = -1;
-
-                ListagemAlunosPosicao();
-
-                while (Posicao < 0 || Posicao > ListaAlunos.Count)
-                {
-
                     Console.WriteLine();
-                    try
-                    {
-                        Console.WriteLine($"Informe a posição do aluno desejado");
-                        Posicao = Convert.ToInt32(Console.ReadLine().Trim()) - 1;
+                    break;
+                case 2:
+                    ListaAlunos[Posicao].AlteraIdade(CadastrarIdadeAluno());
+                    Console.WriteLine(@$"Alteração de {ListaAlunos[Posicao].Nome} realizada com sucesso!
+{ListaAlunos[Posicao]}");
+                    break;
+                case 3:
+                    ListaAlunos[Posicao].AlteraEmail(CadastrarEmailAluno().ToUpper());
+                    Console.WriteLine(@$"Alteração de {ListaAlunos[Posicao].Nome} realizada com sucesso!
+{ListaAlunos[Posicao]}");
+                    break;
+                case 4:
+                    break;
 
-                        if (Posicao < 0 || Posicao >= ListaAlunos.Count)
-                        {
-                            Posicao = -1;
-                            Console.WriteLine("Posicão inválida. Tecle e tente novamente.");
-                            Console.ReadKey();
-                        }
-                    }
-                    catch
+            }
+
+        }
+
+        public void RemoverAluno()
+        {
+            if (!ConfirmaAcao())
+                return;
+
+            Console.Clear();
+            Console.WriteLine(@"REMOÇÃO DE ALUNOS +PRATI - GRUPO TELECON
+");
+
+            if (!ExisteAlunos())
+            {
+                Console.WriteLine("Não há alunos cadastrados para remoção.");
+                return;
+            }
+
+            int Posicao = DefinePosicao();
+
+            string NomeAlunoExcluido = ListaAlunos[Posicao].Nome;
+
+            ListaAlunos.RemoveAt(Posicao);
+
+
+            Console.WriteLine($"Aluno {NomeAlunoExcluido} removido!");
+        }
+
+        public void ListagemAlunosPosicao()
+        {
+            Console.Clear();
+            Console.WriteLine(@"LISTA DE ALUNOS +PRATI - GRUPO TELECON
+");
+
+            if (!ExisteAlunos())
+                Console.WriteLine("Não há alunos cadastrados.");
+            else
+            {
+                for (byte i = 0; i < ListaAlunos.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {ListaAlunos[i]}");
+                }
+            }
+
+        }
+
+        public void ListagemAlunosMaiorIdade()
+        {
+            Console.Clear();
+            Console.WriteLine(@"LISTA DE ALUNOS MAIORES DE IDADE +PRATI - GRUPO TELECON
+");
+
+            List<Aluno> AlunosMaior = new();
+
+            foreach (Aluno aluno in ListaAlunos)
+            {
+                if (aluno.Idade >= 18)
+                    AlunosMaior.Add(aluno);
+            }
+
+            if (AlunosMaior.Count < 1)
+            {
+                Console.WriteLine("Não há alunos maiores de idade cadastrados.");
+                return;
+            }
+
+
+            Console.WriteLine("LISTA ALUNOS MAIORES DE IDADE");
+
+            for (byte i = 0; i < AlunosMaior.Count; i++)
+            {
+                Console.WriteLine($"{i + 1} - {AlunosMaior[i]}");
+            }
+
+        }
+
+        public void ListagemAlunosMenorIdade()
+        {
+            Console.Clear();
+            Console.WriteLine(@"LISTA DE ALUNOS MENORES DE IDADE +PRATI - GRUPO TELECON
+");
+
+            List<Aluno> AlunosMenor = new();
+
+            foreach (Aluno aluno in ListaAlunos)
+            {
+                if (aluno.Idade < 18)
+                    AlunosMenor.Add(aluno);
+
+            }
+
+            if (AlunosMenor.Count < 1)
+            {
+                Console.WriteLine("Não há alunos menores de idade cadastrados.");
+                return;
+            }
+
+            Console.WriteLine(@"LISTA ALUNOS MENORES DE IDADE");
+
+            for (byte i = 0; i < AlunosMenor.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {AlunosMenor[i]}");
+            }
+        }
+
+        public int DefinePosicao()
+        {
+            int Posicao = -1;
+
+            ListagemAlunosPosicao();
+
+            while (Posicao < 0 || Posicao > ListaAlunos.Count)
+            {
+
+                Console.WriteLine();
+                try
+                {
+                    Console.WriteLine($"Informe a posição do aluno desejado");
+                    Posicao = Convert.ToInt32(Console.ReadLine().Trim()) - 1;
+
+                    if (Posicao < 0 || Posicao >= ListaAlunos.Count)
                     {
                         Posicao = -1;
                         Console.WriteLine("Posicão inválida. Tecle e tente novamente.");
-                        continue;
+                        Console.ReadKey();
                     }
                 }
-
-                return Posicao;
-            }
-
-            public bool ExisteAlunos()
-            {
-                return ListaAlunos.Count > 0;
-            }
-
-            public int DefineOpcaoMenu()
-            {
-                int OpcaoEscolhida = -1;
-
-
-                while (Opcao < 0 || Opcao > 6)
+                catch
                 {
-                    Console.WriteLine(@"
+                    Posicao = -1;
+                    Console.WriteLine("Posicão inválida. Tecle e tente novamente.");
+                    continue;
+                }
+            }
+
+            return Posicao;
+        }
+
+        public bool ExisteAlunos()
+        {
+            return ListaAlunos.Count > 0;
+        }
+
+        public int DefineOpcaoMenu()
+        {
+            int OpcaoEscolhida = -1;
+
+
+            while (Opcao < 0 || Opcao > 6)
+            {
+                Console.WriteLine(@"
 Digite a opção desejada ");
 
-                    try
-                    {
-                        OpcaoEscolhida = Convert.ToInt32(Console.ReadLine().Trim());
+                try
+                {
+                    OpcaoEscolhida = Convert.ToInt32(Console.ReadLine().Trim());
 
-                        if (OpcaoEscolhida < 0 || OpcaoEscolhida > 6)
-                        {
-                            Console.WriteLine("Opção não é valida. Tente Novamente.");
-                            continue;
-                        }
-                        break;
-                    }
-                    catch
+                    if (OpcaoEscolhida < 0 || OpcaoEscolhida > 6)
                     {
-                        OpcaoEscolhida = -1;
                         Console.WriteLine("Opção não é valida. Tente Novamente.");
                         continue;
                     }
+                    break;
                 }
-
-                return OpcaoEscolhida;
-            }
-
-            public void ReiniciaTela()
-            {
-                Opcao = -1;
-                Console.WriteLine(@"
-Tecle para sair.");
-                Console.ReadKey();
-                Console.Clear();
-
-            }
-
-            public bool ConfirmaAcao()
-            {
-                Console.WriteLine($"Você realmente deseja executar a ação {DefineAcao(Opcao)}? [1] SIM [2] NÃO");
-                int OpcaoConfirma = 0;
-
-                while (OpcaoConfirma < 1 || OpcaoConfirma > 2)
+                catch
                 {
-                    try
-                    {
-                        OpcaoConfirma = Convert.ToInt32(Console.ReadLine().Trim());
+                    OpcaoEscolhida = -1;
+                    Console.WriteLine("Opção não é valida. Tente Novamente.");
+                    continue;
+                }
+            }
 
-                        if (OpcaoConfirma == 1)
-                            return true;
-                        else if (OpcaoConfirma == 2)
-                            return false;
-                        else
-                        {
-                            Console.WriteLine("Opcão inválida. Digite [1] SIM [2] NÃO");
-                            OpcaoConfirma = 0;
-                            continue;
-                        }
+            return OpcaoEscolhida;
 
-                    }
-                    catch
+        }
+
+        public void ReiniciaTela()
+        {
+            Opcao = -1;
+            Console.WriteLine(@"
+Tecle para sair.");
+            Console.ReadKey();
+            Console.Clear();
+
+        }
+
+        public bool ConfirmaAcao()
+        {
+            Console.WriteLine($"Você realmente deseja executar a ação {DefineAcao(Opcao)}? [1] SIM [2] NÃO");
+            int OpcaoConfirma = 0;
+
+            while (OpcaoConfirma < 1 || OpcaoConfirma > 2)
+            {
+                try
+                {
+                    OpcaoConfirma = Convert.ToInt32(Console.ReadLine().Trim());
+
+                    if (OpcaoConfirma == 1)
+                        return true;
+                    else if (OpcaoConfirma == 2)
+                        return false;
+                    else
                     {
                         Console.WriteLine("Opcão inválida. Digite [1] SIM [2] NÃO");
                         OpcaoConfirma = 0;
                         continue;
                     }
+
                 }
-
-                return false;
+                catch
+                {
+                    Console.WriteLine("Opcão inválida. Digite [1] SIM [2] NÃO");
+                    OpcaoConfirma = 0;
+                    continue;
+                }
             }
 
-            //método auxiliar para ConfirmaAcao()
-            public string DefineAcao(int Opcao)
-            {
+            return false;
+        }
 
-                if (Opcao == 1) return "Cadastro de Alunos";
-                else if (Opcao == 3) return "Alterar Aluno";
-                else return "Remover Aluno";
+        //método auxiliar para ConfirmaAcao()
+        public string DefineAcao(int Opcao)
+        {
 
-            }
+            if (Opcao == 1) return "Cadastro de Alunos";
+            else if (Opcao == 3) return "Alterar Aluno";
+            else return "Remover Aluno";
+
+        }
     }
 }

@@ -1,13 +1,17 @@
 ﻿using Alunos.Entities;
+using System.Globalization;
+using System.Text;
+using System.Text.RegularExpressions;
+
 namespace Alunos
 {
-    public class Program
+    class Program
     {
         static void Main()
         {
-            ControleAlunos controleAlunos = new();
+            ControleAlunos c = new();
 
-            controleAlunos.ImprimeMenu();
+            c.ImprimeMenu();
         }
     }
 }
