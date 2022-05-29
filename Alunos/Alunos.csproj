@@ -7,12 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Entities\AlunoValidacao.cs" />
-  </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="11.0.1" />
+	<ItemGroup>
+    <Compile Remove="Entities\AlunoValidacao.cs" />
   </ItemGroup>
 
 </Project>
