@@ -14,7 +14,8 @@ namespace Alunos
                 new Aluno() { Nome = "JOSÉ CARLOS", Idade = 22, Email = "JOSE.CARLOS@GMAIL.COM" },
                 new Aluno() { Nome = "FERNANDO COSTA", Idade = 15, Email = "FERNANDO.COSTA@OUTLOOK.COM" },
                 new Aluno() { Nome = "OLAVO FERNANDES", Idade = 19, Email = "FERNANDES.OLAVO@HOTMAIL.COM" },
-                new Aluno() { Nome = "DIENIFER SILVA", Idade = 24, Email = "DIENI.SILVA@GMAIL.COM" }
+                new Aluno() { Nome = "DIENIFER SILVA", Idade = 24, Email = "DIENI.SILVA@GMAIL.COM" },
+                new Aluno() { Nome = "FABRÍCIO DEL FRARI DA COSTA", Idade = 25, Email = "DEVCODE.FABRICIO@GMAIL.COM" }
             };
 
             int Opcao = -1;
@@ -48,32 +49,32 @@ namespace Alunos
                             CadastrarAluno();
                             ReiniciaTela();
                             break;
-                        
+
                         case 2:
                             ConsultarAlunos();
                             ReiniciaTela();
                             break;
-                        
+
                         case 3:
                             AlterarDadosAluno();
                             ReiniciaTela();
                             break;
-                        
+
                         case 4:
                             RemoverAluno();
                             ReiniciaTela();
                             break;
-                        
+
                         case 5:
                             ListagemAlunosMaiorIdade();
                             ReiniciaTela();
                             break;
-                        
+
                         case 6:
                             ListagemAlunosMenorIdade();
                             ReiniciaTela();
                             break;
-                        
+
                         case 0:
                             Console.Write("Saindo");
                             Thread.Sleep(400);
@@ -86,6 +87,7 @@ namespace Alunos
 
                         default:
                             Console.WriteLine("Opção inválida!");
+                            ReiniciaTela();
                             break;
 
                     }
@@ -102,9 +104,15 @@ namespace Alunos
                 Console.WriteLine(@"CADASTRO DE ALUNOS +PRATI - GRUPO TELECON
 ");
 
-                string Nome = CadastrarNomeAluno();
+                string Nome = CadastrarNomeAluno().ToUpper();
                 int Idade = CadastrarIdadeAluno();
-                string Email = CadastrarEmailAluno();
+                string Email = CadastrarEmailAluno().ToUpper();
+
+
+                
+                if (AlunoJaExiste(Nome, Idade))
+                    return;
+
 
                 ListaAlunos.Add(new Aluno(Nome.ToUpper(), Idade, Email.ToUpper()));
 
@@ -252,6 +260,22 @@ Aluno cadastrado!
                 bool ParteLocalValida = SplitEmail[0].Length >= 3;
 
                 return RegexEmailTeste && EmailTerminaCom && ParteLocalValida;
+            }
+
+            bool AlunoJaExiste(string Nome, int Idade)
+            {
+                foreach (Aluno aluno in ListaAlunos)
+                {
+                    if (aluno.Nome == Nome && aluno.Idade == Idade)
+                    {
+                        Console.WriteLine(@"
+Aluno já cadastrado. Consulte a lista de alunos.");
+                        return true;
+                    }
+
+                }
+
+                return false;
             }
 
             void ConsultarAlunos()
@@ -481,12 +505,11 @@ O que deseja alterar?
             {
                 int OpcaoEscolhida = -1;
 
-                Console.WriteLine();
-
-                Console.WriteLine("Digite a opção desejada ");
 
                 while (Opcao < 0 || Opcao > 6)
                 {
+                    Console.WriteLine(@"
+Digite a opção desejada ");
 
                     try
                     {
@@ -495,7 +518,7 @@ O que deseja alterar?
                         if (OpcaoEscolhida < 0 || OpcaoEscolhida > 6)
                         {
                             Console.WriteLine("Opção não é valida. Tente Novamente.");
-                            Console.ReadKey();
+                            continue;
                         }
                         break;
                     }
@@ -503,7 +526,6 @@ O que deseja alterar?
                     {
                         OpcaoEscolhida = -1;
                         Console.WriteLine("Opção não é valida. Tente Novamente.");
-                        Console.ReadKey();
                         continue;
                     }
                 }
